@@ -1,53 +1,100 @@
-//Marim Abbas
-//10/18/2023
-//Project: Gaussian Elimination Implementation in C++
 
 #include <iostream>
 using namespace std;
 
+struct Node{
+char data;
+Node *left;
+Node *right;
+
+//default constructors to initialize nodes
+Node(char val):data(val),left(NULL),right(NULL) {}
+
+};
+//function declarations
+void printPreorder(Node *node);
+void printInorder(Node *node);
+void printPostorder(Node *node);
+
 int main() {
 
-	const int NUM_ROW = 3;
-	const int NUM_COL = 4;
-	double aug_matrix[NUM_ROW][NUM_COL] = {{2,-3,1,-22},
-	                                       {7,9,-3,14},
-	                                       {6,7,2,91}};
-
-//gaussian elimination
-  for(int i=0; i<NUM_ROW;i++)
-  {
-    double divisor=aug_matrix[i][i];
-     //make diagnol element be 1
-    for(int j=0; j<NUM_COL; j++)
-      {
-        aug_matrix[i][j]/=divisor;
-      }
-    //make all numbers around it be 0
-    for(int j=0; j<NUM_ROW; j++)
-      {
-        if(j!=i)
-        {
-          double multiplier=-aug_matrix[j][i]; //jth row-horizontal
-
-          //update each element using mulitper
-          for(int k=0;k<NUM_COL;k++)
-            {
-              aug_matrix[j][k]+=multiplier*aug_matrix[i][k];
-            }
-        }
-      }
-  }
+  //create tree
+  Node *root=new Node('A');
+  root->left=new Node('B');
+  root->right=new Node('C');
+  root->left->left=new Node('D');
+  root->left->right=new Node('E');
+  root->right->left=new Node('F');
+  root->right->right=new Node('G');
+  root->right->left->left=new Node('H');
+  root->right->left->right=new Node('I');
 
 
-	//nested for loop to display the augment matrix
-	for(int i = 0; i < NUM_ROW; i++)
-	{
-		for(int j = 0; j < NUM_COL; j++)
-				cout << aug_matrix[i][j] << " ";
-		cout << endl;
-	}					
 
-	
+  //print tree in preorder
+  cout<<"Preorder:"<<endl;
+  printPreorder(root);
 
+  
+  //print tree in InOrder
+  cout<<"\nInorder:"<<endl;
+  printInorder(root);
+  
+
+
+
+  //print tree in Postorder
+  cout<<"\nPostorder: "<<endl;
+  printPostorder(root);
+  
 	return 0;
+}
+
+//function for pre order
+void printPreorder(Node *node)
+{
+  //if node is empty
+  if(node==NULL)
+    return;
+
+  //print data of node
+  cout<<node->data<<' ';
+  
+  //go through left tree
+  printPreorder(node->left);
+
+  //go through right tree;
+  printPreorder(node->right);
+}
+
+//function for in order
+void printInorder(Node *node)
+{
+  if(node==NULL)
+    return;
+  
+  //go through the left tree
+  printInorder(node->left);
+  //print letters
+  cout<<node->data<<' ';
+
+  //go through right tree
+  printInorder(node->right);
+  
+}
+
+//function for post order
+void printPostorder(Node *node)
+{
+  //if node is empty
+  if(node==NULL)
+    return;
+
+  //go through left tree
+  printPostorder(node->left);
+
+  //go through right tree
+  printPostorder(node->right);
+  cout<<node->data<<' ';
+  
 }
